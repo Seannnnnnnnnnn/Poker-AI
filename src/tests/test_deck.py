@@ -1,9 +1,12 @@
+import os
 import sys
 import random
 import unittest
 
-if __name__ == "__main__":
-    sys.path.append("../src")
+# Add the src directory to the Python path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+src_dir = os.path.abspath(os.path.join(current_dir, "../"))
+sys.path.append(src_dir)
 
 from deck import Deck, Card, Rank, Suite
 
@@ -102,6 +105,3 @@ class CardTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-    
-    
-
