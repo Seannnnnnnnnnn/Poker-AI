@@ -1,4 +1,3 @@
-"""Tests logic for poker game"""
 import os
 import sys
 import unittest
@@ -23,6 +22,21 @@ class PokerGameUnitTests(unittest.TestCase):
         player = self.game.Player1
         self.game._deal_hole_cards(player)
         self.assertEqual(len(player.get_hole_cards()), 2)
+
+    def test_can_reset_game_state_after_round(self):
+        # tests that variables related to game state are reset following a round
+        self.game.current_bet = 150
+        self.game.deck.card_index = 15
+        self.game.is_pre_flop = False
+        self.game.pot = 400
+        
+        self.game._reset_before_round()
+        
+        self.assertEqual(self.game.current_bet, 0)
+        self.assertEqual(self.game.deck.card_index, 0)
+        self.assertEqual(self.game.pot, 0)
+        self.assertTrue(self.game.is_pre_flop)
+
 
 
 if __name__ == "__main__":

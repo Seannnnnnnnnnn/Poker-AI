@@ -1,12 +1,18 @@
 """Represents Actions that a player can take"""
-from enum import Enum, auto
+from enum import Enum
+from typing import Optional
+from dataclasses import dataclass
 
 
-class PostFlopActions(Enum):
-    Fold = auto()
-    Call = auto()
-    Raise = auto()
+class ActionType(Enum):
+    Fold  = "fold"
+    Check = "check"
+    Call  = "call"
+    Raise = "raise"
+    AllIn = "all in"
 
 
-class PreFlopActions(Enum):
-    raise NotImplementedError
+@dataclass
+class Action:
+    action_type: ActionType
+    amount : Optional[int] = None  # valid only for AllIn Raise and Call actions

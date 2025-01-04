@@ -102,6 +102,9 @@ class CardTests(unittest.TestCase):
         card = Card(Rank.King, Suite.Hearts)
         self.assertEqual(card.to_short_string(), "Kh")
 
+        card = Card(Rank.Nine, Suite.Hearts)
+        self.assertEqual(card.to_short_string(), "9h")
+
 
 if __name__ == "__main__":
     unittest.main()
