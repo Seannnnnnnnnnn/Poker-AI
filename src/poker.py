@@ -27,6 +27,8 @@ class PokerGame:
         self.raised_flag = True  # represents whether a player has raised to restrict actions that players can make
         self.round_is_over = False  # flag to represent that the round is over
 
+        self.game_is_live = False  # flag to represent whether game is currently running
+
     def play_round(self):
         # deal hole cards and take initial bets preflop
         self._deal_hole_cards()
@@ -44,19 +46,20 @@ class PokerGame:
             return
         
         # deak turn card and get player action
-        self.__add_board_card()
+        self._add_board_card()
         self._manage_player_actions()
         if self.round_is_over: 
             self._manage_round_over()
             return
 
         # deal river card and final bets
-        self.__add_board_card()
+        self._add_board_card()
         self._manage_player_actions()
          
         # assign winnings and reset game state
         self._assign_winnings()
         self._manage_round_over()
+        self._check_game_end()
         
     def _deal_hole_cards(self):
         # deals hole cards to players
@@ -67,9 +70,9 @@ class PokerGame:
     def _deal_flop_cards(self):
         # adds the three community cards to the board
         for _ in range(3):
-            self.__add_board_card()
+            self._add_board_card()
     
-    def __add_board_card(self):
+    def _add_board_card(self):
         # adds a single card to the board
         self.board.append(self.deck.deal_card())
 
@@ -106,7 +109,7 @@ class PokerGame:
             winning_player.bank_roll += self.pot
 
     def _manage_round_over(self):
-        # called when the round ends - resets deck and flags
+        # called when the round ends - resets deck, flags, pot values and stuff like that 
         self.pot = 0
         self.board = []
         self.current_bet = 0
@@ -118,6 +121,12 @@ class PokerGame:
         for player in self.players:
             player.reset_hand()
         self.round_number += 1
+    
+    def _check_game_end(self):
+        # checks the end condition of the game
+        for player in self.players:
+            if player.bank_roll == 0:
+                self.game_is_live = True
 
     def get_board_cards(self):
         return self.board
